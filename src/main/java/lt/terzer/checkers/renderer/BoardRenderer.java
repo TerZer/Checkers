@@ -2,6 +2,7 @@ package lt.terzer.checkers.renderer;
 
 import lt.terzer.checkers.drawables.BoardMap;
 import lt.terzer.checkers.drawables.Checker;
+import lt.terzer.checkers.drawables.Square;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -22,25 +23,28 @@ public class BoardRenderer implements Renderer {
     @Override
     public void paint(Graphics g, List<Checker> checkers) {
         Point2D size = boardMap.getSize(translate);
+        for(Square square : boardMap.getSquares()){
+            Color color = square.getColor();
+            if(square.isHighlighted()){
+                color = mixColors(color, square.getHighlightColor());
+            }
+            g.setColor(color);
+            Point2D dst = new Point2D.Double();
+            translate.transform(square.getPoint(), dst);
+            g.fillRect((int) Math.round(dst.getX()), (int) Math.round(dst.getY()), (int) Math.round(size.getX()), (int) Math.round(size.getY()));
+        }
+    }
 
-        g.setColor(new Color(40, 40, 40, 225));
-        for(Point2D point : boardMap.getBlackSquares()){
-            Point2D dst = new Point2D.Double();
-            translate.transform(point, dst);
-            g.fillRect((int) Math.round(dst.getX()), (int) Math.round(dst.getY()), (int) Math.round(size.getX()), (int) Math.round(size.getY()));
+    public static Color mixColors(Color... colors) {
+        float ratio = 1f / ((float) colors.length);
+        int r = 0, g = 0, b = 0, a = 0;
+        for (Color color : colors) {
+            r += color.getRed() * ratio;
+            g += color.getGreen() * ratio;
+            b += color.getBlue() * ratio;
+            a += color.getAlpha() * ratio;
         }
-        g.setColor(new Color(180, 180, 180, 225));
-        for(Point2D point : boardMap.getWhiteSquares()){
-            Point2D dst = new Point2D.Double();
-            translate.transform(point, dst);
-            g.fillRect((int) Math.round(dst.getX()), (int) Math.round(dst.getY()), (int) Math.round(size.getX()), (int) Math.round(size.getY()));
-        }
-        g.setColor(new Color(7, 250, 24, 70));
-        for(Point2D point : boardMap.getHighlightedSquares()){
-            Point2D dst = new Point2D.Double();
-            translate.transform(point, dst);
-            g.fillRect((int) Math.round(dst.getX()), (int) Math.round(dst.getY()), (int) Math.round(size.getX()), (int) Math.round(size.getY()));
-        }
+        return new Color(r, g, b, a);
     }
 
     @Override

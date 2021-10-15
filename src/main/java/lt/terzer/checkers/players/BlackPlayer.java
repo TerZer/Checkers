@@ -14,7 +14,6 @@ public class BlackPlayer implements Player {
 
     private final List<Checker> checkers = new ArrayList<>();
 
-    //TODO make player builder
     public BlackPlayer(){
         for(int i = 0;i < BoardMap.MAP_SIZE;i++){
             for(int j = 0;j < BoardMap.CHECKERS_SIZE;j++){
@@ -26,6 +25,7 @@ public class BlackPlayer implements Player {
                 }
             }
         }
+        checkers.add(new Checker(3, 5, CheckerType.BLACK));
     }
 
     @Override

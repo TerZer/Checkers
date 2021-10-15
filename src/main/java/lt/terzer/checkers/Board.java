@@ -13,6 +13,7 @@ import java.util.List;
 public class Board {
 
     private final BoardMap boardMap = new BoardMap();
+    private final GameRules gameRules = new GameRules();
     private final List<Player> players = new ArrayList<>();
     private Player currentPlayer;
 
@@ -53,20 +54,12 @@ public class Board {
     }
 
     public void showPossibleMoves(Checker checker) {
-        //TODO check if other checkers can kill and stop
-        //TODO check possible moves
-
         boardMap.clearHighlight();
-
         Player secondPlayer = getSecondPlayer();
         if(secondPlayer == null)
             return;
 
-        for(Checker checker1 : currentPlayer.getCheckers()) {
-            /*for (Checker secondChecker : secondPlayer.getCheckers()) {
-                if (canKill(checker, secondChecker))
-            }*/
-        }
-        boardMap.setHighlight(boardMap.getAvailablePoints(checker));
+        List<Point2D> list = gameRules.getAvailableMoves(checker, secondPlayer.getCheckers(), currentPlayer.getCheckers());
+        boardMap.setHighlight(list);
     }
 }
