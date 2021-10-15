@@ -1,20 +1,22 @@
 package lt.terzer.checkers;
 
 import lt.terzer.checkers.drawables.Checker;
+import lt.terzer.checkers.game.Board;
 import lt.terzer.checkers.renderer.CheckersRenderer;
 import lt.terzer.checkers.renderer.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 
 public class Main extends JPanel {
 
     private final Board board = new Board();
     private final Renderer renderer;
+    private final Main main;
 
     public Main(Dimension dimension) {
+        this.main = this;
         renderer = new CheckersRenderer(board.getBoardMap(), dimension);
 
         addComponentListener(new ComponentAdapter() {
@@ -31,11 +33,19 @@ public class Main extends JPanel {
                     if (checker != null) {
                         board.showPossibleMoves(checker);
                     }
+                    else{
+                        board.moveChecker(renderer.getPoint2D(e.getPoint()));
+                    }
                 }
                 else if(e.getButton() == MouseEvent.BUTTON3){
-                    board.getBoardMap().clearHighlight();
+                    board.removeSelectedChecker();
                 }
                 repaint();
+                if(board.isGameEnded()){
+                    JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, main);
+                    JOptionPane.showConfirmDialog(frame, "Game ended!", "Checkers", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
             }
 
             @Override

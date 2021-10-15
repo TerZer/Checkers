@@ -4,13 +4,7 @@ import lt.terzer.checkers.drawables.BoardMap;
 import lt.terzer.checkers.drawables.Checker;
 import lt.terzer.checkers.drawables.CheckerType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class WhitePlayer implements Player {
-
-    private final List<Checker> checkers = new ArrayList<>();
+public class WhitePlayer extends AbstractPlayer {
 
     public WhitePlayer(){
         for(int i = 0; i < BoardMap.MAP_SIZE; i++){
@@ -23,10 +17,5 @@ public class WhitePlayer implements Player {
                 }
             }
         }
-    }
-
-    @Override
-    public List<Checker> getCheckers() {
-        return checkers;
     }
 }

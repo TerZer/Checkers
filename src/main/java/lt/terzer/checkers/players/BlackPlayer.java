@@ -1,18 +1,10 @@
 package lt.terzer.checkers.players;
 
-import lt.terzer.checkers.Board;
 import lt.terzer.checkers.drawables.BoardMap;
 import lt.terzer.checkers.drawables.Checker;
 import lt.terzer.checkers.drawables.CheckerType;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class BlackPlayer implements Player {
-
-    private final List<Checker> checkers = new ArrayList<>();
+public class BlackPlayer extends AbstractPlayer {
 
     public BlackPlayer(){
         for(int i = 0;i < BoardMap.MAP_SIZE;i++){
@@ -25,11 +17,5 @@ public class BlackPlayer implements Player {
                 }
             }
         }
-        checkers.add(new Checker(3, 5, CheckerType.BLACK));
-    }
-
-    @Override
-    public List<Checker> getCheckers() {
-        return checkers;
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 public interface Player {
 
     List<Checker> getCheckers();
+    void removeCheckers(List<Checker> capturableCheckers);
 }
